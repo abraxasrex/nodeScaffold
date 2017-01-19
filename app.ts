@@ -6,7 +6,7 @@ import * as mongoose from 'mongoose';
 
 //express routes
 import routes from './routes/index';
-
+import * as stuff from './api/boxers';
 //init express and assign it to app var
 //INITIATE THE APP
 let app = express();
@@ -19,6 +19,19 @@ if(dev){
   let dotenv = require('dotenv');
   dotenv.load();
 }
+
+import Stuff from './models/Boxers';
+//mongoose connect
+mongoose.connect(process.env.MONGO_URI).then(()=>{
+  console.log('connection');
+  Stuff.create({
+    prop1: 'hi',
+    prop2: 'also hiiiii'
+  });
+}).catch((err)=>{
+  console.log(err);
+});
+
 
 
 // view engine setup
@@ -36,7 +49,7 @@ app.use('/ngApp', express.static(path.join(__dirname, 'ngApp')));
 
 //a server route
 app.use('/', routes);
-
+app.use('/', stuff);
 // redirect 404 to home for the sake of AngularJS client-side routes
 app.get('/*', function(req, res, next) {
   if (/.js|.html|.css|templates|js|scripts/.test(req.path) || req.xhr) {

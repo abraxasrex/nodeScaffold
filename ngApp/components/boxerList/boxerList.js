@@ -5,7 +5,12 @@ var chThreeApp;
         var name = 'boxerList';
         var template = '/ngApp/components/boxerList/boxerList.html';
         var BoxerList = (function () {
-            function BoxerList() {
+            function BoxerList($http) {
+                var _this = this;
+                this.$http = $http;
+                $http.get('/api/stuff').then(function (results) {
+                    _this.stuff = results.data;
+                });
             }
             return BoxerList;
         }());
